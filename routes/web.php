@@ -2,29 +2,24 @@
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\AnaliticaController;
+use App\Http\Controllers\OrdenController;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
 
-Route::get('/', function () {
-    return view('welcome');
+    Route::prefix('carrito')->group(function () {
+        Route::get('/', [CarritoController::class, 'index'])->name('carrito.index');
+        Route::post('/carrito/agregar', [CarritoController::class, 'add'])->name('carrito.add');
+        Route::post('/remover/{cartItem}', [CarritoController::class, 'remove'])->name('carrito.remove');
+    });
+
+    Route::post('checkout', [OrdenController::class, 'checkout'])->name('ordenes.checkout');
+    Route::get('analitica', [AnaliticaController::class, 'index'])->name('analitica.index');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
-Route::post('carrito/{id}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
-Route::get('carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
-
-// Rutas de autenticación generadas por Breeze
 require __DIR__.'/auth.php';

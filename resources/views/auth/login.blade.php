@@ -1,56 +1,114 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión - Mi Tienda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        .login-form {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        .form-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+        .form-label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+        }
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #4b5563;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-submit:hover {
+            background-color: #374151;
+        }
+
+        .form-link {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .form-link a {
+            color: #4b5563;
+            text-decoration: underline;
+        }
+
+        .form-link a:hover {
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-form">
+        <h2 class="form-title">Iniciar sesión</h2>
+        <form method="POST" action="http://127.0.0.1:8000/login" class="login-form">
+            <input type="hidden" name="_token" value="fCrRSI8IOzU3gPKxrJG8IFwHkpaSX4l3AwzT2Bys">
+            <div class="form-group">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input id="email" type="email" name="email" class="form-input" required autofocus>
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+            <div class="form-group">
+                <label for="password" class="form-label">Contraseña</label>
+                <input id="password" type="password" name="password" class="form-input" required autocomplete="current-password">
             </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
+            <div class="form-group">
+                <input type="checkbox" id="remember_me" name="remember">
+                <label for="remember_me">Recordarme</label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
+            <div class="form-group">
+                <button type="submit" class="form-submit">Ingresar</button>
             </div>
         </form>
-    </x-auth-card>
-</x-guest-layout>
+
+        <div class="form-link">
+            <a href="http://127.0.0.1:8000/forgot-password">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
+</body>
+</html>
