@@ -17,16 +17,27 @@ class CarritoController extends Controller
 
     public function add(Request $request)
     {
-        // Obtener el ID del producto de la solicitud
-        $productoId = $request->input('producto_id');
+        // Validar los datos del formulario
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required',
+            'descripcion' => 'required',
+            'imagen' => 'required',
+        ]);
 
-        // Obtener el producto por su ID (por ejemplo, de una base de datos o de una API)
-        $producto = Producto::findOrFail($productoId);
+        // Obtener los datos del producto de la solicitud
+        $nombreProducto = $request->input('nombre');
+        $precioProducto = $request->input('precio');
+        $descripcionProducto = $request->input('descripcion');
+        $imagenProducto = $request->input('imagen');
 
-        // Agregar el producto al carrito (por ejemplo, a la sesión)
-        $carrito = session()->get('carrito', []);
-        $carrito[] = $producto;
-        session()->put('carrito', $carrito);
+        // Guardar el producto en la base de datos
+        $producto = Producto::create([
+            'nombre' => $nombreProducto,
+            'precio' => $precioProducto,
+            'descripcion' => $descripcionProducto,
+            'imagen' => $imagenProducto,
+        ]);
 
         // Redirigir de vuelta al carrito o a la página de productos
         return redirect()->route('carrito.index');
